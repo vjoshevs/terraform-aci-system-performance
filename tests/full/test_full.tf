@@ -16,35 +16,41 @@ terraform {
 module "main" {
   source = "../.."
 
-  name        = "ABC"
-  alias       = "ALIAS"
-  description = "DESCR"
+  admin_state          = true
+  response_threshold   = 8500
+  top_slowest_requests = 5
+  calculation_window   = 300
 }
 
-data "aci_rest_managed" "fvTenant" {
-  dn = "uni/tn-ABC"
+data "aci_rest_managed" "commApiRespTime" {
+  dn = "uni/fabric/comm-default/apiResp"
 
   depends_on = [module.main]
 }
 
-resource "test_assertions" "fvTenant" {
-  component = "fvTenant"
+resource "test_assertions" "commApiRespTime" {
+  component = "commApiRespTime"
 
-  equal "name" {
-    description = "name"
-    got         = data.aci_rest_managed.fvTenant.content.name
-    want        = "ABC"
+  equal "enableCalculation" {
+    description = "enableCalculation"
+    got         = data.aci_rest_managed.commApiRespTime.content.enableCalculation
+    want        = "enabled"
   }
 
-  equal "nameAlias" {
-    description = "nameAlias"
-    got         = data.aci_rest_managed.fvTenant.content.nameAlias
-    want        = "ALIAS"
+  equal "respTimeThreshold" {
+    description = "respTimeThreshold"
+    got         = data.aci_rest_managed.commApiRespTime.content.respTimeThreshold
+    want        = "8500"
   }
 
-  equal "descr" {
-    description = "descr"
-    got         = data.aci_rest_managed.fvTenant.content.descr
-    want        = "DESCR"
+  equal "topNRequests" {
+    description = "topNRequests"
+    got         = data.aci_rest_managed.commApiRespTime.content.topNRequests
+    want        = "5"
+  }
+  equal "calcWindow" {
+    description = "calcWindow"
+    got         = data.aci_rest_managed.commApiRespTime.content.calcWindow
+    want        = "300"
   }
 }
