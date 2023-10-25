@@ -1,5 +1,5 @@
 <!-- BEGIN_TF_DOCS -->
-# Scaffolding Example
+# System Performance Example
 
 To run this example you need to execute:
 
@@ -12,13 +12,14 @@ $ terraform apply
 Note that this example will create resources. Resources can be destroyed with `terraform destroy`.
 
 ```hcl
-module "aci_scaffolding" {
-  source  = "netascode/scaffolding/aci"
+module "system_performance" {
+  source  = "netascode/system_performance/aci"
   version = ">= 0.0.1"
 
-  name        = "ABC"
-  alias       = "ABC-ALIAS"
-  description = "My Description"
+  admin_state          = true
+  response_threshold   = 8500
+  top_slowest_requests = 5
+  calculation_window   = 300
 }
 ```
 <!-- END_TF_DOCS -->

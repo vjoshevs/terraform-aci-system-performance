@@ -1,23 +1,24 @@
 <!-- BEGIN_TF_DOCS -->
-[![Tests](https://github.com/netascode/terraform-aci-scaffolding/actions/workflows/test.yml/badge.svg)](https://github.com/netascode/terraform-aci-scaffolding/actions/workflows/test.yml)
+[![Tests](https://github.com/netascode/terraform-aci-system-performance/actions/workflows/test.yml/badge.svg)](https://github.com/netascode/terraform-aci-system-performance/actions/workflows/test.yml)
 
-# Terraform ACI Scaffolding Module
+# Terraform ACI System Performance Module
 
-Description
+Manage ACI global System Performance setting
 
 Location in GUI:
-`Tenants` » `XXX`
+'System' » 'System Settings' » 'System Performance'
 
 ## Examples
 
 ```hcl
-module "aci_scaffolding" {
-  source  = "netascode/scaffolding/aci"
+module "system_performance" {
+  source  = "netascode/system_performance/aci"
   version = ">= 0.0.1"
 
-  name        = "ABC"
-  alias       = "ABC-ALIAS"
-  description = "My Description"
+  admin_state          = true
+  response_threshold   = 8500
+  top_slowest_requests = 5
+  calculation_window   = 300
 }
 ```
 
@@ -38,20 +39,20 @@ module "aci_scaffolding" {
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_name"></a> [name](#input\_name) | Tenant name. | `string` | n/a | yes |
-| <a name="input_alias"></a> [alias](#input\_alias) | Tenant alias. | `string` | `""` | no |
-| <a name="input_description"></a> [description](#input\_description) | Tenant description. | `string` | `""` | no |
+| <a name="input_admin_state"></a> [admin\_state](#input\_admin\_state) | System Performance administrative state. | `bool` | `false` | no |
+| <a name="input_response_threshold"></a> [response\_threshold](#input\_response\_threshold) | Threshold value for response time of any requests to Nginx. | `number` | `"85000"` | no |
+| <a name="input_top_slowest_requests"></a> [top\_slowest\_requests](#input\_top\_slowest\_requests) | Property to set the number of slowest requests to be seen. | `number` | `"5"` | no |
+| <a name="input_calculation_window"></a> [calculation\_window](#input\_calculation\_window) | Window in which average time, and number of requests that go beyond the threshold is calculated. | `string` | `"300"` | no |
 
 ## Outputs
 
 | Name | Description |
 |------|-------------|
-| <a name="output_dn"></a> [dn](#output\_dn) | Distinguished name of `fvTenant` object. |
-| <a name="output_name"></a> [name](#output\_name) | Tenant name. |
+| <a name="output_dn"></a> [dn](#output\_dn) | Distinguished name of `commApiRespTime` object. |
 
 ## Resources
 
 | Name | Type |
 |------|------|
-| [aci_rest_managed.fvTenant](https://registry.terraform.io/providers/CiscoDevNet/aci/latest/docs/resources/rest_managed) | resource |
+| [aci_rest_managed.commApiRespTime](https://registry.terraform.io/providers/CiscoDevNet/aci/latest/docs/resources/rest_managed) | resource |
 <!-- END_TF_DOCS -->
