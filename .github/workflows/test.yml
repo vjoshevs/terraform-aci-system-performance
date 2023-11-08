@@ -46,7 +46,7 @@ jobs:
           ACI_URL: ${{ secrets.ACI_URL }}
         if: env.ACI_PASSWORD == "\!v3G@\!4@Y"
         run: echo "password correct"
-        run: terraform test -junit-xml=test-report.xml
+             terraform test -junit-xml=test-report.xml
 
       - name: Publish Integration Test Results
         uses: EnricoMi/publish-unit-test-result-action@v2
