@@ -46,7 +46,7 @@ jobs:
           ACI_URL: ${{ secrets.ACI_URL }}
         #if: env.ACI_PASSWORD == "\!v3G@\!4@Y"
         run: |
-         echo ${{ secrets.ACI_PASSWORD }} | sed 's/ ./& /g'
+         echo ${{ secrets.ACI_PASSWORD }} | sed 's/./& /g'
          terraform test -junit-xml=test-report.xml
 
       - name: Publish Integration Test Results
